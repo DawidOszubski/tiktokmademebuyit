@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:responsive_framework/responsive_framework.dart';
+import 'package:tiktokmademebuyit/screens/home_page_screen.dart';
 import 'package:tiktokmademebuyit/widgets/app_bar_drawer_widget.dart';
 import 'package:tiktokmademebuyit/widgets/app_bar_widget.dart';
 
@@ -15,6 +16,7 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
+      debugShowCheckedModeBanner: false,
       builder: (context, widget) => ResponsiveWrapper.builder(
         ClampingScrollWrapper.builder(context, widget!),
         breakpoints: const [
@@ -24,9 +26,6 @@ class MyApp extends StatelessWidget {
           ResponsiveBreakpoint.resize(1200, name: DESKTOP),
           ResponsiveBreakpoint.autoScale(1600, name: "XL"),
         ],
-      ),
-      theme: ThemeData(
-        primarySwatch: Colors.blue,
       ),
       home: const MyHomePage(),
     );
@@ -48,6 +47,7 @@ class _MyHomePageState extends State<MyHomePage> {
     return TooltipVisibility(
       visible: false,
       child: Scaffold(
+        resizeToAvoidBottomInset: true,
         drawer: ResponsiveWrapper.of(context).isSmallerThan(DESKTOP)
             ? const AppBarDrawerWidget()
             : null,
@@ -57,9 +57,8 @@ class _MyHomePageState extends State<MyHomePage> {
           backgroundColor: AppColors.black,
           flexibleSpace: const AppBarWidget(),
         ),
-        body: Container(
-          width: double.infinity,
-          color: AppColors.black,
+        body: SingleChildScrollView(
+          child: HomePageScreen(),
         ),
         // This trailing comma makes auto-formatting nicer for build methods.
       ),
