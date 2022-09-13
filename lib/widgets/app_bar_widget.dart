@@ -1,3 +1,6 @@
+import 'dart:io';
+
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:responsive_framework/responsive_framework.dart';
@@ -29,9 +32,9 @@ class _AppBarWidgetState extends State<AppBarWidget> {
         children: [
           ResponsiveRowColumnItem(
             child: ResponsiveVisibility(
-              hiddenWhen: const [
+              /* hiddenWhen: const [
                 Condition.smallerThan(name: "XS"),
-              ],
+              ],*/
               child: SvgPicture.asset(
                 AppAssets.pageTitle,
                 height: ResponsiveValue(
@@ -41,6 +44,10 @@ class _AppBarWidgetState extends State<AppBarWidget> {
                     const Condition.smallerThan(
                       name: MOBILE,
                       value: 15.0,
+                    ),
+                    const Condition.smallerThan(
+                      name: "XS",
+                      value: 10.0,
                     ),
                   ],
                 ).value,
@@ -145,7 +152,7 @@ class _AppBarWidgetState extends State<AppBarWidget> {
                               ),
                               Icon(
                                 Icons.shopping_basket_outlined,
-                                color: Colors.white,
+                                color: AppColors.white,
                                 size: basketSize,
                               ),
                             ],
@@ -185,6 +192,24 @@ class _AppBarItemWidgetState extends State<AppBarItemWidget> {
       overlayColor:
           MaterialStateColor.resolveWith((states) => Colors.transparent),
       onTap: () {},
+      onTapDown: (_) {
+        if (Platform.isAndroid || Platform.isIOS) {
+          setState(() {
+            isSelected = true;
+            fontSize =
+                AppStyles.appBarItemStyle.copyWith(fontSize: 25.0).fontSize;
+          });
+        }
+      },
+      onTapUp: (_) {
+        if (Platform.isAndroid || Platform.isIOS) {
+          setState(() {
+            isSelected = false;
+            fontSize =
+                AppStyles.appBarItemStyle.copyWith(fontSize: 22.0).fontSize;
+          });
+        }
+      },
       onHover: (isHover) {
         if (isHover) {
           setState(() {
